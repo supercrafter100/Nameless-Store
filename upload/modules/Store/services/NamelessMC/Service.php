@@ -29,8 +29,15 @@ class NamelessMCService extends ServiceBase {
             // Add groups to user
             if (isset($command['add_groups']) && is_array($command['add_groups']) && count($command['add_groups'])) {
                 foreach ($command['add_groups'] as $group) {
+                    
                     $user->addGroup($group);
                 }
+
+                GroupSyncManager::getInstance()->broadcastChange(
+                    $user,
+                    NamelessMCGroupSyncInjector::class,
+                    $command['add_groups'],
+                );
             }
 
             // Remove groups from user
@@ -38,6 +45,12 @@ class NamelessMCService extends ServiceBase {
                 foreach ($command['remove_groups'] as $group) {
                     $user->removeGroup($group);
                 }
+
+                GroupSyncManager::getInstance()->broadcastChange(
+                    $user,
+                    NamelessMCGroupSyncInjector::class,
+                    $command['remove_groups'],
+                );
             }
 
             // Add credits to user
