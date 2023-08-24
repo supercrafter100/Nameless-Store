@@ -29,7 +29,6 @@ class NamelessMCService extends ServiceBase {
             // Add groups to user
             if (isset($command['add_groups']) && is_array($command['add_groups']) && count($command['add_groups'])) {
                 foreach ($command['add_groups'] as $group) {
-                    
                     $user->addGroup($group);
                 }
 
